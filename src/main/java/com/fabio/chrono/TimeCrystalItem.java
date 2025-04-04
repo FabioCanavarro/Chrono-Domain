@@ -14,7 +14,7 @@ public class TimeCrystalItem extends Item {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        ChronoDomain.registerTimeFieldEntity(entity, 200.0f); // Example: double the time speed for the entity
+        ChronoDomain.registerTimeFieldEntity(entity, ChronoDomain.timefactor); // Example: double the time speed for the entity
         return ActionResult.SUCCESS; // SUCCESS if you handled it, PASS if not
     }
 }
