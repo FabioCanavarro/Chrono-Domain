@@ -2,13 +2,15 @@ package com.fabio.chrono;
 
 import net.minecraft.entity.Entity;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class TimeFieldManager {
-    private Map<UUID, Float> entityTimeFactors = new HashMap<>();
+    private final Map<UUID, Float> entityTimeFactors = new HashMap<>();
 
+    public String getEntityRegistered() {
+        final List<UUID> entityList = entityTimeFactors.keySet().stream().toList();
+        return entityList.toString();
+    }
     // Register an entity with a specific time factor
     public void registerEntityInTimeField(Entity entity, float timeFactor) {
         entityTimeFactors.put(entity.getUuid(), timeFactor);

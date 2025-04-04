@@ -3,8 +3,11 @@ package com.fabio.chrono;
 import net.fabricmc.api.ModInitializer;
 
 
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +33,13 @@ public class ChronoDomain implements ModInitializer {
 		// Proceed with mild caution.
 		ModItems.initialize();
 		ModBlocks.initialize();
+
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+			dispatcher.register(CommandManager.literal("GetEntityRegistered").executes(context -> {
+				context.getSource().sendFeedback(() -> Text.literal("Called /test_command." + TIME_FIELD_MANAGER.getEntityRegistered()), false);
+				return 1;
+			}));
+		});
 
 		LOGGER.info("Mod items initialized");
 	}
