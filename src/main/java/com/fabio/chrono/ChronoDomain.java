@@ -44,6 +44,13 @@ public class ChronoDomain implements ModInitializer {
 		});
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+			dispatcher.register(CommandManager.literal("GetTimeFactor").executes(context -> {
+				context.getSource().sendFeedback(() -> Text.literal(Float.toString(timefactor)), false);
+				return 1;
+			}));
+		});
+
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(CommandManager.literal("SetTimeFactor")
 					.then(CommandManager.argument("value", FloatArgumentType.floatArg()))
 					.executes(context -> {
