@@ -3,6 +3,7 @@ package com.fabio.chrono;
 import net.minecraft.entity.Entity;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class TimeFieldManager {
     private final Map<UUID, Float> entityTimeFactors = new HashMap<>();
@@ -36,6 +37,7 @@ public class TimeFieldManager {
 
         // For a time factor of 2.0, return 1 extra tick
         // For a time factor of 3.0, return 2 extra ticks
+        ChronoDomain.LOGGER.info("Extra ticks for entity: {} = {}", entity.getUuid(), (int) (factor - 1.0f));
         return Math.max(0, (int)(factor - 1.0f));
     }
 
