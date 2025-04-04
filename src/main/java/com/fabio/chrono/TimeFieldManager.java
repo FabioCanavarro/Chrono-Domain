@@ -3,7 +3,6 @@ package com.fabio.chrono;
 import net.minecraft.entity.Entity;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public class TimeFieldManager {
     private final Map<UUID, Float> entityTimeFactors = new HashMap<>();
@@ -12,6 +11,7 @@ public class TimeFieldManager {
         final List<UUID> entityList = entityTimeFactors.keySet().stream().toList();
         return entityList.toString();
     }
+
     // Register an entity with a specific time factor
     public void registerEntityInTimeField(Entity entity, float timeFactor) {
         entityTimeFactors.put(entity.getUuid(), timeFactor);
@@ -24,6 +24,28 @@ public class TimeFieldManager {
 
         float factor = entityTimeFactors.get(entity.getUuid());
         return factor > 1.0f; // Time is accelerated if factor > 1
+    }
+
+    // Check if an entity is in a slowed time field
+    public boolean isEntitySlowed(Entity entity) {
+        if (!entityTimeFactors.containsKey(entity.getUuid()))
+            return false; // Not in a time field
+
+        float factor = entityTimeFactors.get(entity.getUuid());
+        return factor < 1.0f; // Time is slowed if factor < 1
+    }
+
+    // Check if an entity is in any time field
+    public boolean isEntityInTimeField(Entity entity) {
+        return entityTimeFactors.containsKey(entity.getUuid());
+    }
+
+    // Get the time factor for an entity
+    public float getTimeFactorForEntity(Entity entity) {
+        if (!entityTimeFactors.containsKey(entity.getUuid()))
+            return 1.0f; // Normal speed
+
+        return entityTimeFactors.get(entity.getUuid());
     }
 
     // Get how many extra ticks to apply for accelerated time
@@ -55,8 +77,8 @@ public class TimeFieldManager {
         } else {
             // Skip ticks for slow-down based on factor
             // e.g., if factor = 0.5, tick only on every other game tick
-            return gameTime % (int)(1/factor) == 0;
+            int skipInterval = (int)(1.0f / factor);
+            return gameTime % skipInterval == 0;
         }
     }
-
 }
