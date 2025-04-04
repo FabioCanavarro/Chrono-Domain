@@ -31,6 +31,13 @@ public class ModItems {
                     .maxCount(16)
     );
 
+    public static final Item SLOW_TIME_CRYSTAL = register(
+            "slow_time_crystal",
+            SlowTimeCrystal::new,
+            new Item.Settings()
+                    .maxCount(16)
+    );
+
 
 }
 
