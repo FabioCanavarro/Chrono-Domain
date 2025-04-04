@@ -27,6 +27,7 @@ public class ChronoDomain implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		ModItems.intialize();
+		ModBlocks.initialize();
 
 		LOGGER.info("Mod items initialized");
 	}

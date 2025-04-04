@@ -27,7 +27,12 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.add(ModItems.TimeCrystal));
     }
 
-    public static final Item TimeCrystal = register("time_crystal", Item::new, new Item.Settings());
+    public static final Item TimeCrystal = register(
+            "time_crystal",
+            Item::new,
+            new Item.Settings()
+                    .maxCount(16)
+    );
 
 
 
