@@ -66,10 +66,17 @@ public abstract class EntityTickMixin {
 		float timeFactor = manager.getTimeFactorForEntity(entity);
 
 		// If the time factor is not 1.0, modify the velocity based on the time factor
-		if (timeFactor != 1.0f) {
+		if (timeFactor != 1.0f && original.y < 0) {
 			return new Vec3d(
 					original.x * timeFactor,
 					original.y * timeFactor,
+					original.z * timeFactor
+			);
+		}
+		else if (timeFactor != 1.0f) {
+			return new Vec3d(
+					original.x * timeFactor,
+					original.y,
 					original.z * timeFactor
 			);
 		}

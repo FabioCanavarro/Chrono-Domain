@@ -22,20 +22,21 @@ public class ModItems {
 
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.add(ModItems.TIME_CRYSTAL));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.add(ModItems.SLOW_TIME_CRYSTAL));
     }
 
     public static final Item TIME_CRYSTAL = register(
             "time_crystal",
             TimeCrystalItem::new,
             new Item.Settings()
-                    .maxCount(16)
+                    .maxCount(1)
     );
 
     public static final Item SLOW_TIME_CRYSTAL = register(
             "slow_time_crystal",
             SlowTimeCrystal::new,
             new Item.Settings()
-                    .maxCount(16)
+                    .maxCount(1)
     );
 
 

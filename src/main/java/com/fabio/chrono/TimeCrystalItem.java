@@ -33,7 +33,7 @@ public class TimeCrystalItem extends Item {
                         entity.getX() + (world.getRandom().nextDouble() - 0.5) * entity.getWidth(),
                         entity.getY() + world.getRandom().nextDouble() * entity.getHeight(),
                         entity.getZ() + (world.getRandom().nextDouble() - 0.5) * entity.getWidth(),
-                        5,
+                        10,
                         0,
                         0.1,
                         0,

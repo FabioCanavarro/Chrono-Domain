@@ -1,3 +1,4 @@
 {
-  "item.chrono.time_crystal" : "Time Crystal"
+  "item.chrono.time_crystal" : "Time Crystal",
+  "item.chrono.slow_time_crystal" : "Slow Time Crystal"
 }
