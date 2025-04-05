@@ -42,7 +42,6 @@ public class TimeCrystalItem extends Item {
             }
         }
 
-        // Only consume the item in survival mode
         if (!user.getAbilities().creativeMode) {
             stack.decrement(1);
         }

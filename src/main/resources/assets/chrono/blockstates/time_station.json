@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "chrono:block/time_station"
+    }
+  }
+}
