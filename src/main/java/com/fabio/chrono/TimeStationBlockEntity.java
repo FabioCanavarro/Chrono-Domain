@@ -14,8 +14,10 @@ public class TimeStationBlockEntity extends BlockEntity {
         super(ModBlockEntities.TIME_STATION_BLOCK_ENTITY, pos, state);
     }
 
-    public static <CounterBlockEntity> void tick(World world, BlockPos blockPos, BlockState blockState, CounterBlockEntity entity) {
+    public static void tick(World world, BlockPos pos, BlockState state, TimeStationBlockEntity blockEntity) {
+
     }
+
 
 
 }
