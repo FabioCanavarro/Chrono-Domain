@@ -1,5 +1,6 @@
 {
   "item.chrono.time_crystal" : "Time Crystal",
   "item.chrono.slow_time_crystal" : "Slow Time Crystal",
-  "block.chrono.time_station" : "Time Station"
+  "block.chrono.time_station" : "Time Station",
+  "item.chrono.time_station" : "Time Station"
 }

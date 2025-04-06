@@ -37,7 +37,7 @@ public class ModBlocks {
 
     public static final Block TIME_STATION = register(
             "time_station",
-            Block::new,
+            TimeStationBlock::new,
             AbstractBlock.Settings.create()
                     .sounds(BlockSoundGroup.AMETHYST_BLOCK)
                     .requiresTool()
@@ -45,4 +45,5 @@ public class ModBlocks {
                     .luminance(state -> 5),
             true
     );
+
 }
