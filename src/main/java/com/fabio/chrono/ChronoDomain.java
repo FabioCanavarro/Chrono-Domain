@@ -24,6 +24,7 @@ public class ChronoDomain implements ModInitializer {
 
 		ModItems.initialize();
 		ModBlocks.initialize();
+		ModBlockEntities.initialize();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(CommandManager.literal("GetEntityRegistered").executes(context -> {
             context.getSource().sendFeedback(() -> Text.literal(TIME_FIELD_MANAGER.getEntityRegistered()), false);
