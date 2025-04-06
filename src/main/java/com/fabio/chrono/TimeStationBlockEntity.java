@@ -43,6 +43,7 @@ public class TimeStationBlockEntity extends BlockEntity {
                         (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
                 ), entity -> entity instanceof LivingEntity)) {
 
+            // Put all in the HashMap
             entityTimeFactors.put(entity.getUuid(), ChronoDomain.timefactor);
             if (world instanceof ServerWorld serverWorld) {
                 serverWorld.spawnParticles(
