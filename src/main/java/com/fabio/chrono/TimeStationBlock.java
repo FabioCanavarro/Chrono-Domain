@@ -43,9 +43,13 @@ public class TimeStationBlock extends Block {
 
                 boolean activated = state.get(ACTIVATED);
 
+                // Toggle the activated state
                 world.setBlockState(pos, state.with(ACTIVATED, !activated));
 
+                // Play the sound
                 world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+                // Create a firework particle effect
                 world.addFireworkParticle(
                         pos.getX(),
                         pos.getY(),
@@ -58,6 +62,7 @@ public class TimeStationBlock extends Block {
 
             }
             else {
+                // If the block is already activated, we can just play the sound
                 world.setBlockState(pos, state.with(ACTIVATED, false));
                 world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 1.0F, 0.5F);
             }
