@@ -10,6 +10,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class TimeStationBlockEntity extends BlockEntity {
     public int TickCounter = 0;
     public static final int Scan_interval = 20;
@@ -31,14 +35,15 @@ public class TimeStationBlockEntity extends BlockEntity {
     public static void scanTimeFieldEntities(World world, BlockPos pos) {
         int chunkX = pos.getX() >> 4;
         int chunkZ = pos.getZ() >> 4;
-
+        final Map<UUID, Float> entityTimeFactors = new HashMap<>();
         for (Entity entity : world.getEntitiesByClass(
                 LivingEntity.class,
                 new Box(
                         chunkX << 4, world.getBottomY(), chunkZ << 4,
                         (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
                 ), entity -> entity instanceof LivingEntity)) {
-            ChronoDomain.registerTimeFieldEntity(entity, ChronoDomain.timefactor);
+
+            entityTimeFactors.put(entity.getUuid(), ChronoDomain.timefactor);
             if (world instanceof ServerWorld serverWorld) {
                 serverWorld.spawnParticles(
                         ParticleTypes.PORTAL,
@@ -47,6 +52,11 @@ public class TimeStationBlockEntity extends BlockEntity {
                 );
             }
         }
+        ChronoDomain.switchTimeFieldEntities(entityTimeFactors);
+
+
+
+
     }
 
 

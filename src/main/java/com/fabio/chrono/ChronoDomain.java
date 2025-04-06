@@ -11,6 +11,9 @@ import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+import java.util.UUID;
+
 public class ChronoDomain implements ModInitializer {
 	public static final String MOD_ID = "chrono";
 	private static final TimeFieldManager TIME_FIELD_MANAGER = new TimeFieldManager();
@@ -67,6 +70,10 @@ public class ChronoDomain implements ModInitializer {
 
 	public static void registerTimeFieldEntity(Entity entity, float timeFactor) {
 		TIME_FIELD_MANAGER.registerEntityInTimeField(entity, timeFactor);
+	}
+
+	public static void switchTimeFieldEntities(Map<UUID, Float> entitymap) {
+		TIME_FIELD_MANAGER.SwitchTimeField(entitymap);
 	}
 
 }

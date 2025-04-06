@@ -7,7 +7,11 @@ import java.util.*;
 public class TimeFieldManager {
 
     // HashMap to store the time factors for each entity
-    private final Map<UUID, Float> entityTimeFactors = new HashMap<>();
+    private Map<UUID, Float> entityTimeFactors = new HashMap<>();
+
+    public void SwitchTimeField( Map<UUID, Float> entitymap) {
+        entityTimeFactors = entitymap;
+    }
 
     // Get the list of entities registered in the time field
     public String getEntityRegistered() {
