@@ -20,7 +20,7 @@ public class ModBlockEntities {
 
 
     public static void initialize() {
-        // This method is intentionally left empty. The static initializer will handle registration.
+        ChronoDomain.LOGGER.info(ChronoDomain.MOD_ID + " Registering ModBlockEntities");
     }
 
     public static final BlockEntityType<TimeStationBlockEntity> TIME_STATION_BLOCK_ENTITY = register("counter", TimeStationBlockEntity::new, ModBlocks.TIME_STATION);
