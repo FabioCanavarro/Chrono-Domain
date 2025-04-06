@@ -1,6 +1,5 @@
 package com.fabio.chrono;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.type.FireworkExplosionComponent;
@@ -14,7 +13,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TimeStationBlock extends Block {
