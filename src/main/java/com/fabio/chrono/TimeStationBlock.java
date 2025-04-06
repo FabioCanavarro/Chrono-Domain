@@ -1,7 +1,12 @@
 package com.fabio.chrono;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -15,12 +20,17 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class TimeStationBlock extends Block {
+public class TimeStationBlock extends BlockWithEntity {
     public static final BooleanProperty ACTIVATED = BooleanProperty.of("activated");
 
     public TimeStationBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(ACTIVATED, false));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(TimeStationBlock::new);
     }
 
     @Override
@@ -66,6 +76,16 @@ public class TimeStationBlock extends Block {
             }
             return ActionResult.SUCCESS;
         }
+    }
+
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new TimeStationBlockEntity(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return validateTicker(type, ModBlockEntities.TIME_STATION_BLOCK_ENTITY, TimeStationBlockEntity::tick);
     }
 
 }
