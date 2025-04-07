@@ -12,9 +12,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class TimeStationBlockEntity extends BlockEntity {
     public int TickCounter = 0;
@@ -69,19 +67,25 @@ public class TimeStationBlockEntity extends BlockEntity {
     public static Box scanTimeFieldEntities(World world, BlockPos pos) {
         int chunkX = pos.getX() >> 4;
         int chunkZ = pos.getZ() >> 4;
-        final Map<UUID, Float> entityTimeFactors = new HashMap<>();
-        final Box Field =  new Box(
+
+        // Create a temporary map to track currently found entities
+        final Map<UUID, Float> currentEntities = new HashMap<>();
+
+        final Box Field = new Box(
                 chunkX << 4, world.getBottomY(), chunkZ << 4,
                 (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
-            );
+        );
+
+        // First, scan and register all entities currently in the field
         for (Entity entity : world.getEntitiesByClass(
                 LivingEntity.class,
                 Field,
-                entity -> !(entity instanceof PlayerEntity) )) {
+                entity -> !(entity instanceof PlayerEntity))) {
 
-            // Put all in the HashMap
-            entityTimeFactors.put(entity.getUuid(), ChronoDomain.timefactor);
-            EntityInField.put(entity.getUuid(), ChronoDomain.timefactor);
+            // Add to a current entities map
+            currentEntities.put(entity.getUuid(), ChronoDomain.timefactor);
+
+            // Register entity if not already registered (or update its time factor)
             ChronoDomain.registerTimeFieldEntity(entity, ChronoDomain.timefactor);
 
             if (world instanceof ServerWorld serverWorld) {
@@ -93,19 +97,27 @@ public class TimeStationBlockEntity extends BlockEntity {
             }
         }
 
-        for (Map.Entry<UUID, Float> entry : entityTimeFactors.entrySet()) {
-            UUID uuid = entry.getKey();
-            EntityInField.remove(uuid);
-        }
-
+        // Create a list of entities that were previously in the field but are no longer present
+        List<UUID> entitiesToRemove = new ArrayList<>();
         for (Map.Entry<UUID, Float> entry : EntityInField.entrySet()) {
             UUID uuid = entry.getKey();
+            if (!currentEntities.containsKey(uuid)) {
+                // Entity is no longer in the field, mark for removal
+                entitiesToRemove.add(uuid);
+            }
+        }
+
+        // Remove entities that are no longer in the field
+        for (UUID uuid : entitiesToRemove) {
+            EntityInField.remove(uuid);
             ChronoDomain.removeTimeFieldEntity(uuid);
         }
 
+        // Update our static tracking map with current entities
+        EntityInField.clear();
+        EntityInField.putAll(currentEntities);
+
         return Field;
-
-
     }
 
 
