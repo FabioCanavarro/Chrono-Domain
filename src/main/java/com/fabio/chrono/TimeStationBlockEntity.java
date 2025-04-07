@@ -32,16 +32,18 @@ public class TimeStationBlockEntity extends BlockEntity {
         }
     }
 
-    public static void scanTimeFieldEntities(World world, BlockPos pos) {
+    public static Box scanTimeFieldEntities(World world, BlockPos pos) {
         int chunkX = pos.getX() >> 4;
         int chunkZ = pos.getZ() >> 4;
         final Map<UUID, Float> entityTimeFactors = new HashMap<>();
+        final Box Field =  new Box(
+                chunkX << 4, world.getBottomY(), chunkZ << 4,
+                (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
+            );
         for (Entity entity : world.getEntitiesByClass(
                 LivingEntity.class,
-                new Box(
-                        chunkX << 4, world.getBottomY(), chunkZ << 4,
-                        (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
-                ), entity -> entity instanceof LivingEntity)) {
+                Field,
+                entity -> entity instanceof LivingEntity)) {
 
             // Put all in the HashMap
             entityTimeFactors.put(entity.getUuid(), ChronoDomain.timefactor);
@@ -55,7 +57,7 @@ public class TimeStationBlockEntity extends BlockEntity {
         }
         ChronoDomain.switchTimeFieldEntities(entityTimeFactors);
 
-
+        return Field;
 
 
     }
