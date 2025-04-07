@@ -4,10 +4,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -23,12 +25,43 @@ public class TimeStationBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, TimeStationBlockEntity blockEntity) {
+        Box field = new Box(0, -1000, 0, 0, -1000, 0);
         if (!state.get(TimeStationBlock.ACTIVATED)){
             return;
         }
         if (++blockEntity.TickCounter == Scan_interval) {
             blockEntity.TickCounter = 0;
-            scanTimeFieldEntities(world, pos);
+           field = scanTimeFieldEntities(world, pos);
+        }
+        if (world instanceof ServerWorld serverWorld) {
+            Vec3d corner = new Vec3d(field.maxX, field.maxY, field.maxZ);
+            Vec3d corner2 = new Vec3d(field.minX, field.minY, field.minZ);
+            Vec3d corner3 = new Vec3d(field.maxX, field.minY, field.minZ);
+            Vec3d corner4 = new Vec3d(field.minX, field.maxY, field.maxZ);
+
+            for (int i = 0; i < 255; i++) {
+                serverWorld.spawnParticles(
+                        ParticleTypes.END_ROD,
+                        corner.x, i, corner.z,
+                        5, 0, 0.1, 0, 0.02
+                );
+                serverWorld.spawnParticles(
+                        ParticleTypes.END_ROD,
+                        corner2.x, i, corner2.z,
+                        5, 0, 0.1, 0, 0.02
+                );
+                serverWorld.spawnParticles(
+                        ParticleTypes.END_ROD,
+                        corner3.x, i, corner3.z,
+                        5, 0, 0.1, 0, 0.02
+                );
+                serverWorld.spawnParticles(
+                        ParticleTypes.END_ROD,
+                        corner4.x, i, corner4.z,
+                        5, 0, 0.1, 0, 0.02
+                );
+            }
+
         }
     }
 
@@ -43,7 +76,7 @@ public class TimeStationBlockEntity extends BlockEntity {
         for (Entity entity : world.getEntitiesByClass(
                 LivingEntity.class,
                 Field,
-                entity -> entity instanceof LivingEntity)) {
+                entity -> !(entity instanceof PlayerEntity) )) {
 
             // Put all in the HashMap
             entityTimeFactors.put(entity.getUuid(), ChronoDomain.timefactor);
