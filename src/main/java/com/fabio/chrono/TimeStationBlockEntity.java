@@ -19,6 +19,7 @@ import java.util.UUID;
 public class TimeStationBlockEntity extends BlockEntity {
     public int TickCounter = 0;
     public static final int Scan_interval = 20;
+    public static HashMap<UUID, Float> EntityInField = new HashMap<>();
 
     public TimeStationBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.TIME_STATION_BLOCK_ENTITY, pos, state);
@@ -80,6 +81,9 @@ public class TimeStationBlockEntity extends BlockEntity {
 
             // Put all in the HashMap
             entityTimeFactors.put(entity.getUuid(), ChronoDomain.timefactor);
+            EntityInField.put(entity.getUuid(), ChronoDomain.timefactor);
+            ChronoDomain.registerTimeFieldEntity(entity, ChronoDomain.timefactor);
+
             if (world instanceof ServerWorld serverWorld) {
                 serverWorld.spawnParticles(
                         ParticleTypes.PORTAL,
@@ -88,7 +92,16 @@ public class TimeStationBlockEntity extends BlockEntity {
                 );
             }
         }
-        ChronoDomain.switchTimeFieldEntities(entityTimeFactors);
+
+        for (Map.Entry<UUID, Float> entry : entityTimeFactors.entrySet()) {
+            UUID uuid = entry.getKey();
+            EntityInField.remove(uuid);
+        }
+
+        for (Map.Entry<UUID, Float> entry : EntityInField.entrySet()) {
+            UUID uuid = entry.getKey();
+            ChronoDomain.removeTimeFieldEntity(uuid);
+        }
 
         return Field;
 

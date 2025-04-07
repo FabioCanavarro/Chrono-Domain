@@ -22,6 +22,11 @@ public class TimeFieldManager {
         return entityList.toString();
     }
 
+    public void removeEntity(UUID entity) {
+        // Remove the entity from the time field
+        entityTimeFactors.remove(entity);
+    }
+
     // Register an entity with a specific time factor
     public void registerEntityInTimeField(Entity entity, float timeFactor) {
         entityTimeFactors.put(entity.getUuid(), timeFactor);
@@ -109,4 +114,5 @@ public class TimeFieldManager {
             return gameTime % skipInterval == 0;
         }
     }
+
 }

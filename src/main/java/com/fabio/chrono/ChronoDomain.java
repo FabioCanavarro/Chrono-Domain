@@ -76,4 +76,7 @@ public class ChronoDomain implements ModInitializer {
 		TIME_FIELD_MANAGER.SwitchTimeField(entitymap);
 	}
 
+	public static void removeTimeFieldEntity(UUID uuid) {
+		TIME_FIELD_MANAGER.removeEntity(uuid);
+	}
 }
