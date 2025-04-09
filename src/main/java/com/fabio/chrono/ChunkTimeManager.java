@@ -25,4 +25,11 @@ public class ChunkTimeManager {
         chunkTimeFactors.clear();
     }
 
+    public boolean isChunkAffected(ChunkPos chunkPos) {
+        return chunkTimeFactors.containsKey(chunkPos);
+    }
+
+    public float getTimeFactorForChunk(ChunkPos chunkPos) {
+        return chunkTimeFactors.get(chunkPos);
+    }
 }
