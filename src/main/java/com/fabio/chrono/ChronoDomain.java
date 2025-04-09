@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class ChronoDomain implements ModInitializer {
 	public static final String MOD_ID = "chrono";
 	private static final TimeFieldManager TIME_FIELD_MANAGER = new TimeFieldManager();
+	public static final ChunkTimeManager CHUNK_TIME_MANAGER = new ChunkTimeManager();
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static float timefactor = 10.0f;
@@ -79,4 +81,18 @@ public class ChronoDomain implements ModInitializer {
 	public static void removeTimeFieldEntity(UUID uuid) {
 		TIME_FIELD_MANAGER.removeEntity(uuid);
 	}
+
+	public static ChunkTimeManager getChunkTimeManager(){
+		return CHUNK_TIME_MANAGER;
+	}
+
+	public static void registerChunk(BlockPos pos, float timeFactor) {
+		CHUNK_TIME_MANAGER.registerChunk(new ChunkPos(pos), timeFactor);
+	}
+
+	public static void deleteChunk(BlockPos pos) {
+		CHUNK_TIME_MANAGER.deleteChunk(new ChunkPos(pos));
+	}
+
+
 }

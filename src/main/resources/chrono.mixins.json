@@ -3,7 +3,8 @@
 	"package": "com.fabio.chrono.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"EntityTickMixin"
+		"EntityTickMixin",
+		"ScheduledTickMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
