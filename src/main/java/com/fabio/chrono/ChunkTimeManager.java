@@ -1,5 +1,6 @@
 package com.fabio.chrono;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.WorldChunk;
 
@@ -57,4 +58,5 @@ public class ChunkTimeManager {
             return gameTime % skipInterval == 0;
         }
     }
+
 }
