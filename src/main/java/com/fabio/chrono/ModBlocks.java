@@ -32,7 +32,8 @@ public class ModBlocks {
     }
 
     public static void initialize() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(content -> content.add(ModBlocks.TIME_STATION));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> content.add(ModBlocks.TIME_STATION));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SEARCH).register(content -> content.add(ModBlocks.TIME_STATION));
     }
 
     public static final Block TIME_STATION = register(

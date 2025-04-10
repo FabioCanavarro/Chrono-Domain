@@ -23,6 +23,10 @@ public class ModItems {
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.add(ModItems.TIME_CRYSTAL));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.add(ModItems.SLOW_TIME_CRYSTAL));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(ModItems.TIME_CRYSTAL));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(ModItems.SLOW_TIME_CRYSTAL));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SEARCH).register(content -> content.add(ModItems.TIME_CRYSTAL));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SEARCH).register(content -> content.add(ModItems.SLOW_TIME_CRYSTAL));
     }
 
     public static final Item TIME_CRYSTAL = register(
