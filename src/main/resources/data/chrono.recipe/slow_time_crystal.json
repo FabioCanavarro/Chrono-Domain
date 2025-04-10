@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#D#",
+    " # "
+  ],
+  "key": {
+    "#": "minecraft:redstone",
+    "D": "chrono:time_crystal"
+  },
+  "result": {
+    "id": "chrono:slow_time_crystal"
+  }
+}

@@ -6,6 +6,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -18,7 +19,9 @@ import java.util.Map;
 @Mixin(ServerWorld.class)
 public abstract class RandomTickMixin {
     // Use a map to track ticks per world to avoid conflicts in multi-world environments
+    @Unique
     private static final Map<ServerWorld, Integer> TICK_COUNTERS = new HashMap<>();
+    @Unique
     private static final int CLEAR_INTERVAL = 40;
 
     @ModifyVariable(method = "tickChunk", at = @At("HEAD"), ordinal = 0, argsOnly = true)

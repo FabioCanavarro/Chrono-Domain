@@ -6,7 +6,6 @@
 		"EntityTickMixin",
 		"RandomTickMixin",
 		"BlockEntityMixin",
-		"ScheduleTickMixin",
 		"ProjectileTickMixin"
 	],
 	"injectors": {

@@ -52,13 +52,23 @@ public class ProjectileTickMixin {
         }
 
         Vec3d velocity = entity.getVelocity();
-
+        Vec3d modifiedVelocity;
         // Scale the velocity by the time factor
-        Vec3d modifiedVelocity = new Vec3d(
-                velocity.x * timeFactor,
-                velocity.y * timeFactor,
-                velocity.z * timeFactor
-        );
+        if (velocity.y > 0){
+            modifiedVelocity = new Vec3d(
+                    velocity.x * timeFactor,
+                    velocity.y,
+                    velocity.z * timeFactor
+            );
+        }
+        else {
+            modifiedVelocity = new Vec3d(
+                    velocity.x * timeFactor,
+                    velocity.y * timeFactor,
+                    velocity.z * timeFactor
+            );
+        }
+
 
         // Apply the modified velocity
         entity.setVelocity(modifiedVelocity);

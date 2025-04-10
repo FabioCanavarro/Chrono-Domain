@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#O#",
+    "OEO",
+    "#O#"
+  ],
+  "key": {
+    "#": "minecraft:time_crystal",
+    "O": "minecraft:obsidian",
+    "E": "minecraft:emerald_block"
+  },
+  "result": {
+    "id": "chrono:time_station"
+  }
+}

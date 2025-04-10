@@ -1,8 +1,6 @@
 package com.fabio.chrono;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
-
 import java.util.*;
 
 public class TimeFieldManager {
@@ -45,19 +43,6 @@ public class TimeFieldManager {
 
         // Check if the time factor is greater than 1.0
         return factor > 1.0f;
-    }
-
-    // Check if an entity is slowed down (for slow-down effects)
-    public boolean isEntitySlowed(Entity entity) {
-        // Check if the entity is registered in the time field
-        if (!entityTimeFactors.containsKey(entity.getUuid()))
-            return false;
-
-        // Get the time factor for the entity
-        float factor = entityTimeFactors.get(entity.getUuid());
-
-        // Check if the time factor is less than 1.0
-        return factor < 1.0f;
     }
 
     // Check if an entity is in any time field

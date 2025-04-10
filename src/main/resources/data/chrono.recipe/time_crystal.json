@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#E#",
+    "EDE",
+    "#E#"
+  ],
+  "key": {
+    "#": "minecraft:lapis_lazuli",
+    "E": "minecraft:emerald",
+    "D": "minecraft:diamond"
+  },
+  "result": {
+    "id": "chrono:time_crystal"
+  }
+}
