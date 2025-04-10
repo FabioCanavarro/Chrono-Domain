@@ -49,7 +49,7 @@ public class BlockEntityMixin {
             BlockPos pos = ticker.getPos();
             ChunkPos chunkPos = new ChunkPos(pos);
 
-            if (timeManager.isChunkAffected(chunkPos)) {
+            if (timeManager.isChunkAffected(chunkPos) && chunkPos != null) {
                  float timeFactor = timeManager.getChunkTimeFactor(chunkPos);
 
                 if (timeFactor > 1.0f) {
@@ -85,7 +85,7 @@ public class BlockEntityMixin {
         ChunkTimeManager timeManager = ChronoDomain.getChunkTimeManager();
 
         // Check if this chunk is time-affected and slowed down
-        if (timeManager.isChunkAffected(chunkPos)) {
+        if (timeManager.isChunkAffected(chunkPos) && chunkPos != null) {
             float timeFactor = timeManager.getChunkTimeFactor(chunkPos);
 
             // Handle slow time (factor < 1.0)

@@ -1,6 +1,7 @@
 package com.fabio.chrono;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
 
@@ -114,5 +115,7 @@ public class TimeFieldManager {
             return gameTime % skipInterval == 0;
         }
     }
+
+
 
 }

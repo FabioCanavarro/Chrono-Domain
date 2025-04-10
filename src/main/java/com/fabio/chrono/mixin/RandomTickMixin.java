@@ -8,21 +8,33 @@ import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Mixin(ServerWorld.class)
 public abstract class RandomTickMixin {
-    private static int TICK = 0;
+    // Use a map to track ticks per world to avoid conflicts in multi-world environments
+    private static final Map<ServerWorld, Integer> TICK_COUNTERS = new HashMap<>();
+    private static final int CLEAR_INTERVAL = 40;
 
     @ModifyVariable(method = "tickChunk", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private int modifyRandomTickSpeed(int randomTickSpeed, WorldChunk chunk) {
         ChunkPos chunkPos = chunk.getPos();
         final ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
-        TICK += 1;
+
+        // Get current world
+        ServerWorld world = (ServerWorld)(Object)this;
+
+        // Initialize counter for this world if needed
+        TICK_COUNTERS.putIfAbsent(world, 0);
+
+        // Increment the tick counter
+        int currentTicks = TICK_COUNTERS.get(world) + 1;
+        TICK_COUNTERS.put(world, currentTicks);
 
         if (chunkTimeManager.isChunkAffected(chunkPos)) {
             float timeFactor = chunkTimeManager.getChunkTimeFactor(chunkPos);
@@ -32,8 +44,9 @@ public abstract class RandomTickMixin {
             return modifiedSpeed;
         }
 
-        if (TICK >= 40){
-            TICK = 0;
+        // Periodically clear unused chunks to prevent memory leaks
+        if (currentTicks >= CLEAR_INTERVAL) {
+            TICK_COUNTERS.put(world, 0);
             chunkTimeManager.clearChunk();
         }
 
@@ -43,16 +56,16 @@ public abstract class RandomTickMixin {
     // For slowing down the random tick speed
     @Inject(method = "tickChunk", at = @At("HEAD"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     public void slowTimeChunk(WorldChunk chunk, int randomTickSpeed, CallbackInfo ci){
-        // Get the world instance
+        // Get the chunk position
         ChunkPos chunkpos = chunk.getPos();
 
         final ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
 
-        if (chunkTimeManager.isChunkAffected(chunkpos) && chunkTimeManager.getChunkTimeFactor(chunkpos) < 1.0f){
-            if (chunkTimeManager.shouldTickChunkNow(chunk)){
-                ci.cancel();
-            }
+        // Cancel the tick if the time is slowed and this tick should be skipped
+        if (chunkTimeManager.isChunkAffected(chunkpos) &&
+                chunkTimeManager.getChunkTimeFactor(chunkpos) < 1.0f &&
+                !chunkTimeManager.shouldTickChunkNow(chunk)) {
+            ci.cancel();
         }
     }
-
 }
