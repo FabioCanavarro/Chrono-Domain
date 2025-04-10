@@ -32,7 +32,7 @@ public class TimeStationBlockEntity extends BlockEntity {
 
         ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
         Chunk chunk = world.getChunk(pos);
-        chunkTimeManager.registerChunk(chunk.getPos(), 10f);
+        chunkTimeManager.registerChunk(chunk.getPos(), ChronoDomain.timefactor);
 
         if (++blockEntity.TickCounter == Scan_interval) {
             blockEntity.TickCounter = 0;

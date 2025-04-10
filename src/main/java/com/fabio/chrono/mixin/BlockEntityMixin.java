@@ -2,52 +2,66 @@ package com.fabio.chrono.mixin;
 
 import com.fabio.chrono.ChronoDomain;
 import com.fabio.chrono.ChunkTimeManager;
+import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.chunk.BlockEntityTickInvoker;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.Iterator;
+import java.util.List;
 
 
 @Mixin(World.class)
-public abstract class BlockEntityMixin {
+public class BlockEntityMixin {
 
-    @Shadow public abstract WorldChunk getWorldChunk(BlockPos pos);
+    // Shadow the blockEntityTickers list which contains all ticking block entities
+    @Shadow @Final protected List<BlockEntityTickInvoker> blockEntityTickers;
 
     /**
-     * This mixin intercepts the call to blockEntityTickInvoker.tick() in the
-     * tickBlockEntities method and applies our time manipulation logic.
-     * The Redirect injection targets specifically the tick() call within the loop,
-     * allowing us to either skip ticks or add extra ticks based on the time factor.
+     * This injection happens at the end of the tickBlockEntities method
+     * When this runs, all normal ticks have been processed once
      */
-    @Redirect(
-            method = "tickBlockEntities",
-            at = @At(value = "TAIL")
-    )
-    private void handleTimeAffectedTick(BlockEntityTickInvoker invoker) {
-        // Get the block position and corresponding chunk position
-        BlockPos pos = invoker.getPos();
-        WorldChunk chunk = getWorldChunk(pos);
-        ChunkPos chunkPos = chunk.getPos();
-
-        // Get the time manager and check if this chunk is affected
+    @Inject(method = "tickBlockEntities", at = @At("TAIL"))
+    private void afterBlockEntitiesTick(CallbackInfo ci) {
         ChunkTimeManager timeManager = ChronoDomain.getChunkTimeManager();
 
-        if (!timeManager.isChunkAffected(chunkPos)) {
-            return;
-        }
+        // We'll create a temporary list to avoid concurrent modification
+        List<BlockEntityTickInvoker> tickersToProcess = List.copyOf(this.blockEntityTickers);
 
-        // Get the time factor for this chunk
-        float timeFactor = timeManager.getChunkTimeFactor(chunkPos);
+        for (BlockEntityTickInvoker ticker : tickersToProcess) {
+            if (ticker.isRemoved()) {
+                continue;
+            }
 
-        if (timeFactor > 1.0f) {
-            int extraTicks = Math.max(0, Math.round(timeFactor) - 1);
-            for (int i = 0; i < extraTicks; i++) {
-                invoker.tick();
+            // Get position data
+            BlockPos pos = ticker.getPos();
+            ChunkPos chunkPos = new ChunkPos(pos);
+
+            if (timeManager.isChunkAffected(chunkPos)) {
+                 float timeFactor = timeManager.getChunkTimeFactor(chunkPos);
+
+                if (timeFactor > 1.0f) {
+                    int extraTicks = Math.max(0, Math.round(timeFactor) - 1);
+
+                    for (int i = 0; i < extraTicks; i++) {
+                        if (!ticker.isRemoved()) {
+                            ticker.tick();
+                        } else {
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
