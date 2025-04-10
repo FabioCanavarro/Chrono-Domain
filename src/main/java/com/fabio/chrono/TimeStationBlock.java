@@ -48,7 +48,6 @@ public class TimeStationBlock extends BlockWithEntity {
         if (!player.isHolding(ModItems.TIME_CRYSTAL)) {
             return ActionResult.PASS;
         } else {
-            ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
             if (!state.get(ACTIVATED)) {
                 // decrement the item stack
                 if (!player.getAbilities().creativeMode) {
@@ -60,16 +59,8 @@ public class TimeStationBlock extends BlockWithEntity {
                 // Toggle the activated state
                 world.setBlockState(pos, state.with(ACTIVATED, !activated));
 
-                int chunkX = pos.getX() >> 4;
-                int chunkZ = pos.getZ() >> 4;
 
 
-                final Box Field = new Box(
-                        chunkX << 4, world.getBottomY(), chunkZ << 4,
-                        (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
-                );
-                Chunk chunk = world.getChunk(pos);
-                chunkTimeManager.registerChunk(chunk.getPos(), 10f);
 
 
                 // Play the sound

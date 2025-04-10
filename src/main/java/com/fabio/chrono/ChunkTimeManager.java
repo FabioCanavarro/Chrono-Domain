@@ -1,9 +1,6 @@
 package com.fabio.chrono;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
 
 import java.util.HashMap;
@@ -31,10 +28,6 @@ public class ChunkTimeManager {
 
     public boolean isChunkAffected(ChunkPos chunkPos) {
         return chunkTimeFactors.containsKey(chunkPos);
-    }
-
-    public float getTimeFactorForChunk(ChunkPos chunkPos) {
-        return chunkTimeFactors.get(chunkPos);
     }
 
     public boolean shouldTickChunkNow(WorldChunk chunk) {

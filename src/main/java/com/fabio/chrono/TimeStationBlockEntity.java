@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 
 import java.util.*;
 
@@ -28,6 +29,11 @@ public class TimeStationBlockEntity extends BlockEntity {
         if (!state.get(TimeStationBlock.ACTIVATED)){
             return;
         }
+
+        ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
+        Chunk chunk = world.getChunk(pos);
+        chunkTimeManager.registerChunk(chunk.getPos(), 10f);
+
         if (++blockEntity.TickCounter == Scan_interval) {
             blockEntity.TickCounter = 0;
            field = scanTimeFieldEntities(world, pos);

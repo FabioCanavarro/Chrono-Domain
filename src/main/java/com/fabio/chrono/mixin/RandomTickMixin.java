@@ -9,31 +9,35 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(ServerWorld.class)
 public abstract class RandomTickMixin {
+    private static int TICK = 0;
 
-    // For speeding up the random tick speed
-    @ModifyArgs(method = "tickChunk", at = @At("HEAD"))
-    private void ModifyRandomTickSpeed (Args arg) {
-        // Get the world instance
-        WorldChunk chunk = arg.get(0);
-        ChunkPos chunkpos = chunk.getPos();
-
+    @ModifyVariable(method = "tickChunk", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    private int modifyRandomTickSpeed(int randomTickSpeed, WorldChunk chunk) {
+        ChunkPos chunkPos = chunk.getPos();
         final ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
+        TICK += 1;
 
-        if (chunkTimeManager.isChunkAffected(chunkpos)){
-            // Get the time factor for the chunk
-
-            float timeFactor = chunkTimeManager.getChunkTimeFactor(chunkpos);
-
-            arg.set(1, Math.max(1, Math.round(timeFactor)));
-
-            ChronoDomain.LOGGER.info("Random tick speed: {}", timeFactor);
+        if (chunkTimeManager.isChunkAffected(chunkPos)) {
+            float timeFactor = chunkTimeManager.getChunkTimeFactor(chunkPos);
+            int modifiedSpeed = Math.max(1, Math.round(randomTickSpeed * timeFactor));
+            ChronoDomain.LOGGER.info("Random tick speed modified from {} to {} (factor: {})",
+                    randomTickSpeed, modifiedSpeed, timeFactor);
+            return modifiedSpeed;
         }
+
+        if (TICK >= 40){
+            TICK = 0;
+            chunkTimeManager.clearChunk();
+        }
+
+        return randomTickSpeed;
     }
 
     // For slowing down the random tick speed
