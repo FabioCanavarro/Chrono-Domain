@@ -2,12 +2,15 @@ package com.fabio.chrono;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.chunk.WorldChunk;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChunkTimeManager {
+
+    private final Random random = Random.create();
 
     private final Map<ChunkPos, Float> chunkTimeFactors = new HashMap<>();
 
@@ -57,6 +60,10 @@ public class ChunkTimeManager {
             int skipInterval = (int)(1.0f / factor);
             return gameTime % skipInterval == 0;
         }
+    }
+
+    public boolean shouldTickBlockNow(BlockPos pos, float timeFactor) {
+        return random.nextFloat() < timeFactor;
     }
 
 }

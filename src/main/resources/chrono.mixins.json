@@ -5,7 +5,8 @@
 	"mixins": [
 		"EntityTickMixin",
 		"RandomTickMixin",
-		"BlockEntityMixin"
+		"BlockEntityMixin",
+		"ScheduleTickMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

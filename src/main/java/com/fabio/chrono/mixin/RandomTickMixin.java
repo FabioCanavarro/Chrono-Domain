@@ -27,7 +27,7 @@ public abstract class RandomTickMixin {
         if (chunkTimeManager.isChunkAffected(chunkPos)) {
             float timeFactor = chunkTimeManager.getChunkTimeFactor(chunkPos);
             int modifiedSpeed = Math.max(1, Math.round(randomTickSpeed * timeFactor));
-            ChronoDomain.LOGGER.info("Random tick speed modified from {} to {} (factor: {})",
+            ChronoDomain.LOGGER.info("DEBUG: Random tick speed modified from {} to {} (factor: {})",
                     randomTickSpeed, modifiedSpeed, timeFactor);
             return modifiedSpeed;
         }
