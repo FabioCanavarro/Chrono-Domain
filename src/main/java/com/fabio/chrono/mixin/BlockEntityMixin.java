@@ -86,7 +86,7 @@ public class BlockEntityMixin {
             // Handle slow time (factor < 1.0)
             if (timeFactor < 1.0f) {
                 // Use probability to determine if this position should tick
-                boolean shouldTick = timeManager.shouldTickBlockNow(pos, timeFactor);
+                boolean shouldTick = timeManager.shouldTickBlockNow(timeFactor);
 
                 // Override the original result
                 cir.setReturnValue(shouldTick);

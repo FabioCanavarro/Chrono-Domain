@@ -6,12 +6,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class ChronoDomain implements ModInitializer {
@@ -73,24 +70,12 @@ public class ChronoDomain implements ModInitializer {
 		TIME_FIELD_MANAGER.registerEntityInTimeField(entity, timeFactor);
 	}
 
-	public static void switchTimeFieldEntities(Map<UUID, Float> entitymap) {
-		TIME_FIELD_MANAGER.SwitchTimeField(entitymap);
-	}
-
 	public static void removeTimeFieldEntity(UUID uuid) {
 		TIME_FIELD_MANAGER.removeEntity(uuid);
 	}
 
 	public static ChunkTimeManager getChunkTimeManager(){
 		return CHUNK_TIME_MANAGER;
-	}
-
-	public static void registerChunk(BlockPos pos, float timeFactor) {
-		CHUNK_TIME_MANAGER.registerChunk(new ChunkPos(pos), timeFactor);
-	}
-
-	public static void deleteChunk(BlockPos pos) {
-		CHUNK_TIME_MANAGER.deleteChunk(new ChunkPos(pos));
 	}
 
 

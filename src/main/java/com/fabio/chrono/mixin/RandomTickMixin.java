@@ -57,7 +57,7 @@ public abstract class RandomTickMixin {
     }
 
     // For slowing down the random tick speed
-    @Inject(method = "tickChunk", at = @At("HEAD"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "tickChunk", at = @At("HEAD"), cancellable = true)
     public void slowTimeChunk(WorldChunk chunk, int randomTickSpeed, CallbackInfo ci){
         // Get the chunk position
         ChunkPos chunkpos = chunk.getPos();

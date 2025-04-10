@@ -9,8 +9,6 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -18,10 +16,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 import java.util.List;
 

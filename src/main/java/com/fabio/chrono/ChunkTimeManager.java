@@ -1,6 +1,5 @@
 package com.fabio.chrono;
 
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.chunk.WorldChunk;
@@ -62,7 +61,7 @@ public class ChunkTimeManager {
         }
     }
 
-    public boolean shouldTickBlockNow(BlockPos pos, float timeFactor) {
+    public boolean shouldTickBlockNow(float timeFactor) {
         return random.nextFloat() < timeFactor;
     }
 
