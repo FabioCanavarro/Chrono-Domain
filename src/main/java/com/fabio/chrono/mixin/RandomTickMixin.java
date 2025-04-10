@@ -4,7 +4,6 @@ import com.fabio.chrono.ChronoDomain;
 import com.fabio.chrono.ChunkTimeManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,10 +44,8 @@ public abstract class RandomTickMixin {
 
         final ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
 
-        if (chunkTimeManager.isChunkAffected(chunkpos)){
-            float timeFactor = chunkTimeManager.getChunkTimeFactor(chunkpos);
-
-            if (timeFactor < 1){
+        if (chunkTimeManager.isChunkAffected(chunkpos) && chunkTimeManager.getChunkTimeFactor(chunkpos) < 1.0f){
+            if (chunkTimeManager.shouldTickChunkNow(chunk)){
                 ci.cancel();
             }
         }

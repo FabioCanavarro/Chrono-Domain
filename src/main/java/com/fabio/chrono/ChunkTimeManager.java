@@ -3,6 +3,8 @@ package com.fabio.chrono;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.WorldChunk;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,16 +37,23 @@ public class ChunkTimeManager {
         return chunkTimeFactors.get(chunkPos);
     }
 
-    public boolean shouldTickEntityNow(ChunkPos chunkPos, ServerWorld world) {
+    public boolean shouldTickChunkNow(WorldChunk chunk) {
+
+        // Get the chunk position
+        ChunkPos chunkPos = chunk.getPos();
+
         // Check if the entity is registered in the time field
         if (!chunkTimeFactors.containsKey(chunkPos))
             return true;
+
+        // Get the world instance
 
         // Get the time factor for the entity
         float factor = chunkTimeFactors.get(chunkPos);
 
         // Get the in-game time
-        long gameTime = world.getTime();
+
+        long gameTime = chunk.getWorld().getTime();
 
         if (factor >= 1.0f) {
             // Always tick when at normal speed or faster

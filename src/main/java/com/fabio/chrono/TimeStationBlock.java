@@ -18,7 +18,10 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class TimeStationBlock extends BlockWithEntity {
         if (!player.isHolding(ModItems.TIME_CRYSTAL)) {
             return ActionResult.PASS;
         } else {
+            ChunkTimeManager chunkTimeManager = ChronoDomain.getChunkTimeManager();
             if (!state.get(ACTIVATED)) {
                 // decrement the item stack
                 if (!player.getAbilities().creativeMode) {
@@ -55,6 +59,18 @@ public class TimeStationBlock extends BlockWithEntity {
 
                 // Toggle the activated state
                 world.setBlockState(pos, state.with(ACTIVATED, !activated));
+
+                int chunkX = pos.getX() >> 4;
+                int chunkZ = pos.getZ() >> 4;
+
+
+                final Box Field = new Box(
+                        chunkX << 4, world.getBottomY(), chunkZ << 4,
+                        (chunkX << 4) + 16, world.getHeight(), (chunkZ << 4) + 16
+                );
+                Chunk chunk = world.getChunk(pos);
+                chunkTimeManager.registerChunk(chunk.getPos(), 10f);
+
 
                 // Play the sound
                 world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 1.0F, 1.0F);
