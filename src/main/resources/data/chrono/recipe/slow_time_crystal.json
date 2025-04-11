@@ -6,8 +6,8 @@
     " # "
   ],
   "key": {
-    "#": "minecraft:redstone",
-    "D": "chrono:time_crystal"
+    "#": {"item": "minecraft:redstone"},
+    "D": {"item":"chrono:time_crystal"}
   },
   "result": {
     "id": "chrono:slow_time_crystal"

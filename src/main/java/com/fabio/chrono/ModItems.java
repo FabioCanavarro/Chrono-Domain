@@ -32,6 +32,7 @@ public class ModItems {
             TimeCrystalItem::new,
             new Item.Settings()
                     .maxCount(1)
+
     );
 
     public static final Item SLOW_TIME_CRYSTAL = register(

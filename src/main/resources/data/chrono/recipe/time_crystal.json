@@ -6,9 +6,9 @@
     "#E#"
   ],
   "key": {
-    "#": "minecraft:lapis_lazuli",
-    "E": "minecraft:emerald",
-    "D": "minecraft:diamond"
+    "#": {"item": "minecraft:lapis_lazuli"},
+    "E": {"item": "minecraft:emerald"},
+    "D": {"item": "minecraft:diamond"}
   },
   "result": {
     "id": "chrono:time_crystal"
