@@ -1,4 +1,5 @@
 plugins {
+	id "com.modrinth.minotaur" version "2.+"
 	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
 }
@@ -86,5 +87,18 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+modrinth {
+	token = ""
+	projectId = "3lLu7kJM"
+	versionNumber = "1.0.1"
+	versionType = "release"
+	uploadFile = remapJar // Changed from jar to remapJar as needed for Fabric mods
+	gameVersions = ["1.21.5"] // Updated from 1.12.5 to match your likely project version
+	loaders = ["fabric"]
+	dependencies {
+		required.project "fabric-api"
 	}
 }

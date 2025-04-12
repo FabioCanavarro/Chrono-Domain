@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ChronoDomain implements ModInitializer {
 	public static final String MOD_ID = "chrono";
 	private static final TimeFieldManager TIME_FIELD_MANAGER = new TimeFieldManager();
-	public static final ChunkTimeManager CHUNK_TIME_MANAGER = new ChunkTimeManager();
+	private static final ChunkTimeManager CHUNK_TIME_MANAGER = new ChunkTimeManager();
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static float timefactor = 10.0f;
