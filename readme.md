@@ -1,5 +1,7 @@
 # ChronoDomain
 
+[![build](https://github.com/FabioCanavarro/Chrono-Domain/actions/workflows/build.yml/badge.svg)](https://github.com/FabioCanavarro/Chrono-Domain/actions/workflows/build.yml)
+
 ## Overview
 ChronoDomain is a Minecraft Fabric mod that allows you to manipulate time for entities, blocks, and entire chunks. Speed up or slow down various game elements, creating unique gameplay experiences.
 
