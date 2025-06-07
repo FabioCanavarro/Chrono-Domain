@@ -1,4 +1,4 @@
-# ChronoDomain [![Modrinth](https://th.bing.com/th/id/ODLS.2d1c1cf2-8f04-46fe-bbcc-ed3f423ca704?w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2)](https://modrinth.com/mod/chrono-domain/settings)
+# ChronoDomain [![Modrinth](https://th.bing.com/th/id/ODLS.2d1c1cf2-8f04-46fe-bbcc-ed3f423ca704?w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2)](https://modrinth.com/mod/chrono-domain)
 
 [![build](https://github.com/FabioCanavarro/Chrono-Domain/actions/workflows/build.yml/badge.svg)](https://github.com/FabioCanavarro/Chrono-Domain/actions/workflows/build.yml)
 
